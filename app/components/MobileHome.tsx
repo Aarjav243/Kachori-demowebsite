@@ -21,7 +21,7 @@ export default function MobileHome() {
 
   // Preload images for smooth playback
   useEffect(() => {
-    for (let i = 1; i <= 72; i++) {
+    for (let i = 1; i <= 71; i++) {
       const img = new Image();
       img.src = `/sequence/kachori_hover_${i}.png`;
     }
@@ -31,12 +31,12 @@ export default function MobileHome() {
   useEffect(() => {
     if (introFinished) return;
 
-    // Slower image swap to match text duration (72 frames * 90ms = ~6.5 seconds)
+    // Slower image swap to match text duration (71 frames * 90ms = ~6.4 seconds)
     const frameInterval = setInterval(() => {
       setCurrentFrame(prev => {
-        if (prev >= 72) {
-          clearInterval(frameInterval);
-          return 72; // Stop on last frame
+        if (prev >= 70) {
+          clearInterval(frameInterval); // Stop interval exactly at the end
+          return 71; // Lock on final frame (71)
         }
         return prev + 1; // Play every frame
       });
