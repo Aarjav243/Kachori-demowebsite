@@ -1298,7 +1298,10 @@
         /* ── RESPONSIVE 480px (phones) ── */
         @media(max-width: 480px) {
             nav {
-                padding: 18px 16px; /* give more general padding so logo doesn't hug edge too tight */
+                padding: 16px 16px; 
+                background: rgba(10, 8, 6, 0.98);
+                backdrop-filter: blur(24px);
+                border-bottom: 1px solid rgba(200, 146, 42, 0.12);
             }
 
             nav.solid {
@@ -1314,6 +1317,10 @@
             }
 
             /* Hero */
+            .marquee-bar {
+                margin-top: 60px; /* Push below fixed nav on mobile where there is no 400vh spacer */
+            }
+
             .hero-content {
                 padding: 0 16px 70px;
                 max-width: 100%;

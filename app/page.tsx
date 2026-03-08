@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { useScroll, useTransform, motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { useScroll, useTransform, motion, AnimatePresence } from "framer-motion";
 import AntiGravityCanvas from "@/components/AntiGravityCanvas";
 import MainWebsite from "./components/MainWebsite";
+import MobileHome from "./components/MobileHome";
 
 const beats = [
   {
@@ -86,9 +87,22 @@ function TextBeat({ beat, scrollYProgress }: { beat: any, scrollYProgress: any }
 }
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const curRef = useRef<HTMLDivElement>(null);
   const curRingRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile(); // Check on mount
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -156,6 +170,9 @@ export default function Home() {
       clearInterval(intervalId);
     };
   }, []);
+
+  // Hydration safety and mobile routing
+  if (isMounted && isMobile) return <MobileHome />; // Serve the dedicated frictionless mobile build
 
   return (
     <main className="relative bg-[#0A0A0A] selection:bg-white selection:text-black min-h-screen font-sans">
