@@ -19,9 +19,9 @@ export default function MobileHome() {
   const [currentBeat, setCurrentBeat] = useState(0);
   const [introFinished, setIntroFinished] = useState(false);
 
-  // Preload images for smooth playback (use every 2nd frame to save memory on mobile)
+  // Preload images for smooth playback
   useEffect(() => {
-    for (let i = 1; i <= 72; i += 2) {
+    for (let i = 1; i <= 72; i++) {
       const img = new Image();
       img.src = `/sequence/kachori_hover_${i}.png`;
     }
@@ -31,28 +31,28 @@ export default function MobileHome() {
   useEffect(() => {
     if (introFinished) return;
 
-    // Fast image swap to simulate video (roughly 24fps)
+    // Slower image swap to match text duration (72 frames * 90ms = ~6.5 seconds)
     const frameInterval = setInterval(() => {
       setCurrentFrame(prev => {
-        if (prev >= 71) {
+        if (prev >= 72) {
           clearInterval(frameInterval);
           return 72; // Stop on last frame
         }
-        return prev + 2; // Skip frames for performance
+        return prev + 1; // Play every frame
       });
-    }, 45);
+    }, 90);
 
-    // Slowly cycle text beats
+    // Faster text cycles to match image duration (6 beats * 1200ms = 7.2 seconds)
     const beatInterval = setInterval(() => {
       setCurrentBeat(prev => {
         if (prev >= mobileBeats.length - 1) {
           clearInterval(beatInterval);
-          setTimeout(() => setIntroFinished(true), 3000); // Finish shortly after last text
+          setTimeout(() => setIntroFinished(true), 1500); // Finish shortly after last text
           return prev;
         }
         return prev + 1;
       });
-    }, 1800); // Next text every 1.8s
+    }, 1200); 
 
     return () => {
       clearInterval(frameInterval);
