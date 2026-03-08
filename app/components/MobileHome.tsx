@@ -19,9 +19,9 @@ export default function MobileHome() {
   const [currentBeat, setCurrentBeat] = useState(0);
   const [introFinished, setIntroFinished] = useState(false);
 
-  // Preload images for smooth playback
+  // Preload images for smooth playback (load every 2nd frame to cut memory and lag by 50%)
   useEffect(() => {
-    for (let i = 1; i <= 71; i++) {
+    for (let i = 1; i <= 71; i += 2) {
       const img = new Image();
       img.src = `/sequence/kachori_hover_${i}.png`;
     }
@@ -31,16 +31,17 @@ export default function MobileHome() {
   useEffect(() => {
     if (introFinished) return;
 
-    // Slower image swap to match text duration (71 frames * 90ms = ~6.4 seconds)
+    // Optimized image swap: Show 1 frame every 180ms (skipping intermediate frames)
+    // 36 frames * 180ms = ~6.4 seconds (matches text duration perfectly but with 50% less load)
     const frameInterval = setInterval(() => {
       setCurrentFrame(prev => {
-        if (prev >= 70) {
+        if (prev >= 69) {
           clearInterval(frameInterval); // Stop interval exactly at the end
           return 71; // Lock on final frame (71)
         }
-        return prev + 1; // Play every frame
+        return prev + 2; // Skip every other frame to eliminate lag
       });
-    }, 90);
+    }, 180);
 
     // Faster text cycles to match image duration (6 beats * 1200ms = 7.2 seconds)
     const beatInterval = setInterval(() => {
