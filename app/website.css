@@ -51,6 +51,16 @@
             mix-blend-mode: screen;
         }
 
+        /* Hide custom cursor on touch/mobile devices */
+        @media (hover: none) and (pointer: coarse) {
+            #cur, #cur-ring { display: none !important; }
+            .main-website { cursor: auto !important; }
+            .tb, .mc-add, .mc, .play-btn, .ing-item,
+            .fg input, .fg textarea, .fg select, .fsub {
+                cursor: auto !important;
+            }
+        }
+
         #cur-ring {
             width: 36px;
             height: 36px;
@@ -103,8 +113,8 @@
         }
 
         nav.solid {
-            background: rgba(10, 8, 6, 0.92);
-            backdrop-filter: blur(20px);
+            background: rgba(10, 8, 6, 0.96); /* Slightly more opaque */
+            backdrop-filter: blur(24px);
             padding: 18px 64px;
             border-bottom: 1px solid rgba(200, 146, 42, 0.12);
         }
@@ -419,7 +429,7 @@
 
         .s-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-size: clamp(2.4rem, 6vw, 5rem); /* Scaled down minimum for mobile */
             font-weight: 300;
             line-height: 1.05;
             letter-spacing: .01em;
@@ -613,6 +623,7 @@
 
         .menu-tabs {
             display: flex;
+            flex-wrap: wrap;
             gap: 6px;
         }
 
@@ -1207,7 +1218,7 @@
             }
         }
 
-        /* ── RESPONSIVE ── */
+        /* ── RESPONSIVE 900px ── */
         @media(max-width:900px) {
             nav {
                 padding: 16px 24px;
@@ -1283,3 +1294,119 @@
                 right: 24px;
             }
         }
+
+        /* ── RESPONSIVE 480px (phones) ── */
+        @media(max-width: 480px) {
+            nav {
+                padding: 18px 16px; /* give more general padding so logo doesn't hug edge too tight */
+            }
+
+            nav.solid {
+                padding: 14px 16px; 
+            }
+
+            .logo {
+                font-size: 1.3rem; /* maintain a bit of presence */
+            }
+
+            section {
+                padding: 60px 16px;
+            }
+
+            /* Hero */
+            .hero-content {
+                padding: 0 16px 70px;
+                max-width: 100%;
+            }
+
+            .hero-title {
+                font-size: clamp(3.5rem, 18vw, 6rem);
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn-gold,
+            .btn-outline {
+                padding: 13px 28px;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .hero-scroll {
+                display: none;
+            }
+
+            /* About */
+            .about-imgs {
+                height: 260px;
+            }
+
+            .aimg-main {
+                width: 170px;
+                height: 220px;
+            }
+
+            .aimg-sec {
+                width: 130px;
+                height: 160px;
+            }
+
+            .about-stats {
+                flex-wrap: wrap;
+                gap: 28px;
+            }
+
+            /* Menu */
+            .menu-head {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .mc {
+                padding: 32px 24px;
+            }
+
+            .mc.hero-card {
+                padding: 40px 28px;
+            }
+
+            /* Ingredients */
+            .ing-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0;
+            }
+
+            /* Reviews */
+            .rev-card {
+                min-width: 280px;
+                padding: 28px 24px;
+            }
+
+            /* Contact */
+            .cform {
+                padding: 32px 20px;
+            }
+
+            .ci {
+                padding: 16px 16px;
+            }
+
+            /* Showcase */
+            #showcase {
+                height: 50vh;
+            }
+
+            .showcase-overlay {
+                padding: 24px;
+            }
+
+            /* Marquee */
+            .mq-item {
+                font-size: 0.9rem;
+                padding: 0 28px;
+            }
+        }

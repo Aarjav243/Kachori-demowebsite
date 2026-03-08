@@ -78,11 +78,11 @@ export default function AntiGravityCanvas({ scrollYProgress: externalScrollProgr
                 canvas.height = canvasHeight;
             }
 
-            // Handle responsive scaling (contain logic)
+            // Handle responsive scaling (cover logic — fills screen on all devices)
             const imgWidth = img.width;
             const imgHeight = img.height;
 
-            const ratio = Math.min(canvasWidth / imgWidth, canvasHeight / imgHeight);
+            const ratio = Math.max(canvasWidth / imgWidth, canvasHeight / imgHeight);
             const newWidth = imgWidth * ratio;
             const newHeight = imgHeight * ratio;
             const x = (canvasWidth - newWidth) / 2;

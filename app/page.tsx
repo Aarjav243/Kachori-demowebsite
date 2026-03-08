@@ -56,8 +56,8 @@ function TextBeat({ beat, scrollYProgress }: { beat: any, scrollYProgress: any }
   );
 
   const alignmentClass =
-    beat.align === "left" ? "items-start text-left pl-8 md:pl-24" :
-      beat.align === "right" ? "items-end text-right pr-8 md:pr-24" :
+    beat.align === "left" ? "items-start text-left pl-6 md:pl-24" :
+      beat.align === "right" ? "items-end text-right pr-6 md:pr-24" :
         "items-center text-center";
 
   return (
@@ -65,15 +65,15 @@ function TextBeat({ beat, scrollYProgress }: { beat: any, scrollYProgress: any }
       style={{ opacity, y, filter }}
       className={`fixed top-0 left-0 w-full h-full flex flex-col justify-center pointer-events-none ${alignmentClass}`}
     >
-      <div className={`px-6 ${beat.align === 'center' ? 'w-full max-w-5xl' : 'max-w-2xl'}`}>
-        <h2 className={`text-4xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight drop-shadow-2xl font-sans ${beat.align === 'center' ? 'mx-auto text-center max-w-4xl' : 'max-w-2xl'}`}>
+      <div className={`px-4 md:px-6 ${beat.align === 'center' ? 'w-full max-w-5xl' : 'max-w-2xl'}`}>
+        <h2 className={`text-2xl sm:text-4xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight drop-shadow-2xl font-sans ${beat.align === 'center' ? 'mx-auto text-center max-w-4xl' : 'max-w-2xl'}`}>
           {beat.text}
         </h2>
 
         {beat.cta && (
-          <motion.div className="mt-12 pointer-events-auto flex justify-center w-full z-50 relative">
+          <motion.div className="mt-8 md:mt-12 pointer-events-auto flex justify-center w-full z-50 relative">
             <motion.button
-              className="px-12 py-5 bg-white text-black text-xs font-bold tracking-[0.3em] rounded-sm hover:bg-black hover:text-white hover:border-white border border-transparent transition-all uppercase shadow-2xl cursor-pointer"
+              className="px-8 md:px-12 py-4 md:py-5 bg-white text-black text-xs font-bold tracking-[0.3em] rounded-sm hover:bg-black hover:text-white hover:border-white border border-transparent transition-all uppercase shadow-2xl cursor-pointer"
               whileTap={{ scale: 0.95 }}
             >
               Order Now
@@ -96,8 +96,11 @@ export default function Home() {
   });
   const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
 
-  // Global Cursor Logic
+  // Global Cursor Logic — disabled on touch devices
   useEffect(() => {
+    // Detect touch device: skip cursor logic entirely
+    const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    if (isTouch) return;
     const cur = curRef.current;
     const curR = curRingRef.current;
     if (!cur || !curR) return;
@@ -156,7 +159,7 @@ export default function Home() {
 
   return (
     <main className="relative bg-[#0A0A0A] selection:bg-white selection:text-black min-h-screen font-sans">
-      {/* Custom Global Cursor */}
+      {/* Custom Global Cursor — hidden on touch devices via CSS */}
       <div id="cur" ref={curRef} style={{ zIndex: 99999, pointerEvents: 'none' }}></div>
       <div id="cur-ring" ref={curRingRef} style={{ zIndex: 99998, pointerEvents: 'none' }}></div>
 
